@@ -1,0 +1,38 @@
+{
+    "name": "spiral/marshaller",
+    "description": "Marshaller package",
+    "keywords": [
+        "spiral",
+        "marshaller",
+        "serializer"
+    ],
+    "homepage": "https://github.com/spiral/marshaller",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "phpunit/phpunit": "^9.5.20",
+        "vimeo/psalm": "^4.22"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spiral\\Marshaller\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spiral\\Marshaller\\Tests\\": "tests/src"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "psalm": "vendor/bin/psalm --config=psalm.xml ./src"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
