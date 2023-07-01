@@ -1,9 +1,13 @@
 # Marshaller
 
-[![PHP](https://img.shields.io/packagist/php-v/spiral/marshaller.svg?style=flat-square)](https://packagist.org/packages/spiral/marshaller)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spiral/marshaller.svg?style=flat-square)](https://packagist.org/packages/spiral/marshaller)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spiral/marshaller/run-tests?label=tests&style=flat-square)](https://github.com/spiral/marshaller/actions?query=workflow%3Arun-tests+branch%3Amaster)
-[![Total Downloads](https://img.shields.io/packagist/dt/spiral/marshaller.svg?style=flat-square)](https://packagist.org/packages/spiral/marshaller)
+[![PHP Version Require](https://poser.pugx.org/spiral/marshaller/require/php)](https://packagist.org/packages/spiral/marshaller)
+[![Latest Stable Version](https://poser.pugx.org/spiral/marshaller/v/stable)](https://packagist.org/packages/spiral/marshaller)
+[![phpunit](https://github.com/spiral/marshaller/actions/workflows/phpunit.yml/badge.svg)](https://github.com/spiral/marshaller/actions)
+[![psalm](https://github.com/spiral/marshaller/actions/workflows/psalm.yml/badge.svg)](https://github.com/spiral/marshaller/actions)
+[![Codecov](https://codecov.io/gh/spiral/marshaller/branch/1.x/graph/badge.svg)](https://codecov.io/gh/spiral/marshaller)
+[![Total Downloads](https://poser.pugx.org/spiral/marshaller/downloads)](https://packagist.org/packages/spiral/marshaller)
+[![type-coverage](https://shepherd.dev/github/spiral/marshaller/coverage.svg)](https://shepherd.dev/github/spiral/marshaller)
+[![psalm-level](https://shepherd.dev/github/spiral/marshaller/level.svg)](https://shepherd.dev/github/spiral/marshaller)
 
 ## Requirements
 
