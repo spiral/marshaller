@@ -21,6 +21,7 @@ class Marshaller implements MarshallerInterface
     private MapperFactoryInterface $mapper;
 
     /**
+     * @param MapperFactoryInterface $mapper
      * @param array<CallableTypeMatcher> $matchers
      */
     public function __construct(MapperFactoryInterface $mapper, array $matchers = [])
@@ -59,7 +60,14 @@ class Marshaller implements MarshallerInterface
                 continue;
             }
 
-            $setter->call($result, $from[$field] ?? null);
+            try {
+                $setter->call($result, $from[$field] ?? null);
+            } catch (\Throwable $e) {
+                throw new \InvalidArgumentException(
+                    \sprintf('Unable to unmarshal field `%s` of class %s', $field, $to::class),
+                    previous: $e
+                );
+            }
         }
 
         return $result;

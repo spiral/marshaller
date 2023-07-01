@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Marshaller\Internal\Support;
+namespace Spiral\Marshaller\Support;
 
 use Carbon\CarbonInterval;
 use Google\Protobuf\Duration;
@@ -89,11 +89,7 @@ final class DateInterval
         self::FORMAT_NANOSECONDS,
     ];
 
-    /**
-     * @param DateIntervalValue $interval
-     * @param DateIntervalFormat $format
-     */
-    public static function parse($interval, string $format = self::FORMAT_MILLISECONDS): CarbonInterval
+    public static function parse(mixed $interval, string $format = self::FORMAT_MILLISECONDS): CarbonInterval
     {
         self::validateFormat($format);
 
@@ -117,11 +113,7 @@ final class DateInterval
         }
     }
 
-    /**
-     * @param DateIntervalValue|null $interval
-     * @param DateIntervalFormat $format
-     */
-    public static function parseOrNull($interval, string $format = self::FORMAT_MILLISECONDS): ?CarbonInterval
+    public static function parseOrNull(mixed $interval, string $format = self::FORMAT_MILLISECONDS): ?CarbonInterval
     {
         if ($interval === null) {
             return null;
@@ -130,10 +122,7 @@ final class DateInterval
         return self::parse($interval, $format);
     }
 
-    /**
-     * @param DateIntervalValue $interval
-     */
-    public static function assert($interval): bool
+    public static function assert(mixed $interval): bool
     {
         $isParsable = \is_string($interval) || \is_int($interval) || \is_float($interval);
 

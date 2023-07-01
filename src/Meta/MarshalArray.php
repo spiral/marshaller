@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Spiral\Marshaller\Meta;
 
+use Spiral\Attributes\NamedArgumentConstructor;
 use Spiral\Marshaller\Type\ArrayType;
-use Spiral\Marshaller\Type\TypeInterface;
 
 /**
  * @Annotation
+ * @NamedArgumentConstructor
  * @Target({ "PROPERTY", "METHOD" })
  */
-#[\Attribute(\Attribute::TARGET_PROPERTY)]
+#[\Attribute(\Attribute::TARGET_PROPERTY), NamedArgumentConstructor]
 final class MarshalArray extends Marshal
 {
-    /**
-     * @param class-string<TypeInterface>|string|null $of
-     */
-    public function __construct(string $name = null, string $of = null)
-    {
-        parent::__construct($name, ArrayType::class, $of);
+    public function __construct(
+        string $name = null,
+        string $of = null,
+        bool $nullable = true,
+    ) {
+        parent::__construct($name, ArrayType::class, $of, $nullable);
     }
 }

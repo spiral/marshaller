@@ -6,13 +6,14 @@ namespace Spiral\Marshaller\Type;
 
 use Carbon\CarbonInterval;
 use Spiral\Marshaller\MarshallerInterface;
-use Spiral\Marshaller\Internal\Support\DateInterval;
-use Spiral\Marshaller\Internal\Support\Inheritance;
+use Spiral\Marshaller\MarshallingRule;
+use Spiral\Marshaller\Support\DateInterval;
+use Spiral\Marshaller\Support\Inheritance;
 
 /**
  * @psalm-import-type DateIntervalFormat from DateInterval
  */
-class DateIntervalType extends Type implements DetectableTypeInterface
+class DateIntervalType extends Type implements DetectableTypeInterface, RuleFactoryInterface
 {
     private string $format;
 
@@ -28,7 +29,23 @@ class DateIntervalType extends Type implements DetectableTypeInterface
         return !$type->isBuiltin() && Inheritance::extends($type->getName(), \DateInterval::class);
     }
 
-    public function serialize($value): int
+    public static function makeRule(\ReflectionProperty $property): ?MarshallingRule
+    {
+        $type = $property->getType();
+
+        if (!$type instanceof \ReflectionNamedType || !\is_subclass_of($type->getName(), \DateInterval::class)) {
+            return null;
+        }
+
+        return $type->allowsNull()
+            ? new MarshallingRule($property->getName(), NullableType::class, self::class)
+            : new MarshallingRule($property->getName(), self::class);
+    }
+
+    /**
+     * @psalm-assert \DateInterval $value
+     */
+    public function serialize(mixed $value): int
     {
         $method = 'total' . \ucfirst($this->format);
 
@@ -39,7 +56,7 @@ class DateIntervalType extends Type implements DetectableTypeInterface
         return (int)(DateInterval::parse($value, $this->format)->$method);
     }
 
-    public function parse($value, $current): CarbonInterval
+    public function parse(mixed $value, mixed $current): CarbonInterval
     {
         return DateInterval::parse($value, $this->format);
     }

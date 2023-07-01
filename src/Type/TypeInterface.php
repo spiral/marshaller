@@ -10,16 +10,7 @@ interface TypeInterface
 {
     public function __construct(MarshallerInterface $marshaller);
 
-    /**
-     * @param mixed $value
-     * @param mixed $current
-     * @return mixed
-     */
-    public function parse($value, $current);
+    public function parse(mixed $value, mixed $current): mixed;
 
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    public function serialize($value);
+    public function serialize(mixed $value): mixed;
 }

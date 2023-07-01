@@ -2,26 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Marshaller\Internal\Support;
+namespace Spiral\Marshaller\Support;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 
 final class DateTime
 {
-    /**
-     * @var string
-     */
-    private const NOTICE_PRECISION_LOSS =
-        'When reading the RFC3339 datetime, a conversion was made from the ' .
-        '%s format to the %s format with a loss of precision (round to microseconds).';
-
-    /**
-     * @param string|\DateTimeInterface|null $time
-     * @param \DateTimeZone|string|null $tz
-     */
-    public static function parse($time = null, $tz = null): CarbonInterface
-    {
+    public static function parse(
+        string|\DateTimeInterface $time = null,
+        \DateTimeZone|string $tz = null,
+        string $class = \DateTimeInterface::class
+    ): \DateTimeInterface {
         if (\is_string($time) && $matched = self::extractRfc3339Accuracy($time)) {
             [$datetime, $accuracy] = $matched;
 
@@ -31,7 +24,12 @@ final class DateTime
             }
         }
 
-        return Carbon::parse($time, $tz);
+        return match ($class) {
+            \DateTimeImmutable::class => new \DateTimeImmutable($time, $tz),
+            \DateTime::class => new \DateTime($time, $tz),
+            CarbonImmutable::class => CarbonImmutable::parse($time, $tz),
+            default => Carbon::parse($time, $tz),
+        };
     }
 
     /**

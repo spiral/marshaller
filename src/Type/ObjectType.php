@@ -5,12 +5,20 @@ declare(strict_types=1);
 namespace Spiral\Marshaller\Type;
 
 use Spiral\Marshaller\MarshallerInterface;
+use Spiral\Marshaller\MarshallingRule;
 
-class ObjectType extends Type implements DetectableTypeInterface
+/**
+ * @template TClass
+ */
+class ObjectType extends Type implements DetectableTypeInterface, RuleFactoryInterface
 {
+    /**
+     * @var \ReflectionClass<TClass>
+     */
     private \ReflectionClass $reflection;
 
     /**
+     * @param class-string<TClass>|null $class
      * @throws \ReflectionException
      */
     public function __construct(MarshallerInterface $marshaller, string $class = null)
@@ -25,29 +33,47 @@ class ObjectType extends Type implements DetectableTypeInterface
         return !$type->isBuiltin();
     }
 
-    public function parse($value, $current): object
+    public static function makeRule(\ReflectionProperty $property): ?MarshallingRule
     {
-        if (is_object($value)) {
+        $type = $property->getType();
+
+        if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
+            return null;
+        }
+
+        return new MarshallingRule($property->getName(), self::class, $type->getName());
+    }
+
+    /**
+     * @return TClass
+     */
+    public function parse(mixed $value, mixed $current): object
+    {
+        if (\is_object($value)) {
             return $value;
         }
 
         if ($current === null) {
-            $current = $this->instance((array)$value);
+            $current = $this->emptyInstance();
         }
 
         return $this->marshaller->unmarshal($value, $current);
     }
 
-    public function serialize($value): array
+    /**
+     * @psalm-assert TClass $value
+     */
+    public function serialize(mixed $value): array
     {
         return $this->marshaller->marshal($value);
     }
 
     /**
+     * @return TClass
      * @throws \ReflectionException
      */
-    protected function instance(array $data): object
+    protected function emptyInstance(): object
     {
-        return $this->marshaller->unmarshal($data, $this->reflection->newInstanceWithoutConstructor());
+        return $this->reflection->newInstanceWithoutConstructor();
     }
 }

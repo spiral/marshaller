@@ -9,7 +9,7 @@
     "homepage": "https://github.com/spiral/marshaller",
     "license": "MIT",
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.1",
         "nesbot/carbon": "^2.52.0",
         "google/protobuf": "^3.14",
         "spiral/attributes": "^2.7 || ^3.0"
@@ -17,8 +17,8 @@
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "jetbrains/phpstorm-attributes": "dev-master@dev",
-        "phpunit/phpunit": "^9.5.20",
-        "vimeo/psalm": "^4.22"
+        "phpunit/phpunit": "^10.2",
+        "vimeo/psalm": "^5.13"
     },
     "autoload": {
         "psr-4": {

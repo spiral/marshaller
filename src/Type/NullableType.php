@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiral\Marshaller\Type;
 
 use Spiral\Marshaller\MarshallerInterface;
+use Spiral\Marshaller\MarshallingRule;
 
 class NullableType extends Type
 {
@@ -13,7 +14,7 @@ class NullableType extends Type
     /**
      * @throws \ReflectionException
      */
-    public function __construct(MarshallerInterface $marshaller, string $typeOrClass = null)
+    public function __construct(MarshallerInterface $marshaller, MarshallingRule|string $typeOrClass = null)
     {
         if ($typeOrClass !== null) {
             $this->type = $this->ofType($marshaller, $typeOrClass);
@@ -22,12 +23,7 @@ class NullableType extends Type
         parent::__construct($marshaller);
     }
 
-    /**
-     * @param mixed $value
-     * @param mixed $current
-     * @return mixed
-     */
-    public function parse($value, $current)
+    public function parse(mixed $value, mixed $current): mixed
     {
         if ($value === null) {
             return null;
@@ -40,11 +36,7 @@ class NullableType extends Type
         return $value;
     }
 
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    public function serialize($value)
+    public function serialize(mixed $value): mixed
     {
         if ($value === null) {
             return null;

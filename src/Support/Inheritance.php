@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Marshaller\Internal\Support;
+namespace Spiral\Marshaller\Support;
 
 class Inheritance
 {
@@ -53,8 +53,12 @@ class Inheritance
     }
 
     /**
+     * @template A
+     *
      * @param class-string $haystack
-     * @param class-string $interface
+     * @param class-string<A> $interface
+     *
+     * @psalm-assert-if-true class-string<A> $haystack
      */
     public static function implements(string $haystack, string $interface): bool
     {

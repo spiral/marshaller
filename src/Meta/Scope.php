@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace Spiral\Marshaller\Meta;
 
 use JetBrains\PhpStorm\ExpectedValues;
-use Spiral\Attributes\NamedArgumentConstructorAttribute;
+use Spiral\Attributes\NamedArgumentConstructor;
 
 /**
  * @psalm-type ExportScope = Scope::VISIBILITY_*
  *
  * @Annotation
+ * @NamedArgumentConstructor
  * @Target({ "CLASS" })
  */
-#[\Attribute(\Attribute::TARGET_CLASS)]
-class Scope implements NamedArgumentConstructorAttribute
+#[\Attribute(\Attribute::TARGET_CLASS), NamedArgumentConstructor]
+class Scope
 {
     /**
      * @var int
@@ -38,9 +39,6 @@ class Scope implements NamedArgumentConstructorAttribute
                                 | self::VISIBILITY_PROTECTED
                                 | self::VISIBILITY_PUBLIC;
 
-    /**
-     * @var ExportScope
-     */
     #[ExpectedValues(valuesFromClass: Scope::class)]
     public int $properties;
 
