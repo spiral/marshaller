@@ -6,7 +6,7 @@ namespace Spiral\Marshaller;
 
 /**
  * Defines ability for {@see TypeFactoryInterface} to produce {@see MarshallingRule}
- * using {@see \Spiral\Marshaller\Type\RuleFactoryInterface}.
+ * using {@see Type\RuleFactoryInterface}.
  */
 interface RuleFactoryInterface extends TypeFactoryInterface
 {

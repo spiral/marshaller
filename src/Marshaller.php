@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiral\Marshaller;
 
+use Spiral\Marshaller\Exception\InvalidArgumentException;
 use Spiral\Marshaller\Mapper\MapperFactoryInterface;
 use Spiral\Marshaller\Mapper\MapperInterface;
 
@@ -51,8 +52,17 @@ class Marshaller implements MarshallerInterface
      */
     public function unmarshal(array $from, object $to): object
     {
-        $mapper = $this->getMapper(\get_class($to));
+        $class = $to::class;
 
+        if ($class === \stdClass::class) {
+            foreach ($from as $key => $value) {
+                $to->{$key} = $value;
+            }
+
+            return $to;
+        }
+
+        $mapper = $this->getMapper($class);
         $result = $mapper->isCopyOnWrite() ? clone $to : $to;
 
         foreach ($mapper->getSetters() as $field => $setter) {
@@ -63,7 +73,7 @@ class Marshaller implements MarshallerInterface
             try {
                 $setter->call($result, $from[$field] ?? null);
             } catch (\Throwable $e) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     \sprintf('Unable to unmarshal field `%s` of class %s', $field, $to::class),
                     previous: $e
                 );

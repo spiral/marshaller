@@ -6,7 +6,6 @@ namespace Spiral\Marshaller\Support;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Carbon\CarbonInterface;
 
 final class DateTime
 {

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Spiral\Marshaller;
 
 use Spiral\Marshaller\Type\ArrayType;
-use Spiral\Marshaller\Type\DateIntervalType;
 use Spiral\Marshaller\Type\DateTimeType;
 use Spiral\Marshaller\Type\DetectableTypeInterface;
 use Spiral\Marshaller\Type\EnumType;
 use Spiral\Marshaller\Type\ObjectType;
 use Spiral\Marshaller\Type\RuleFactoryInterface as TypeRuleFactoryInterface;
 use Spiral\Marshaller\Type\TypeInterface;
+use Spiral\Marshaller\Type\UuidType;
 
 /**
  * @psalm-type CallableTypeMatcher = \Closure(\ReflectionNamedType): ?string
@@ -25,12 +25,12 @@ class TypeFactory implements RuleFactoryInterface
     private const ERROR_INVALID_TYPE = 'Mapping type must implement %s, but %s given';
 
     /**
-     * @var TypeRuleFactoryInterface
+     * @var array<CallableTypeMatcher|DetectableTypeInterface>
      */
     private array $matchers = [];
 
     /**
-     * @var TypeRuleFactoryInterface
+     * @var array<TypeRuleFactoryInterface|class-string<TypeRuleFactoryInterface>>
      */
     private array $typeDtoMatchers = [];
 
@@ -117,7 +117,7 @@ class TypeFactory implements RuleFactoryInterface
     {
         yield EnumType::class;
         yield DateTimeType::class;
-        yield DateIntervalType::class;
+        yield UuidType::class;
         yield ArrayType::class;
         yield ObjectType::class;
     }

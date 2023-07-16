@@ -10,11 +10,12 @@
     "license": "MIT",
     "require": {
         "php": ">=8.1",
-        "nesbot/carbon": "^2.67.0",
+        "nesbot/carbon": "^2.68.0",
         "google/protobuf": "^3.23",
         "spiral/attributes": "^2.7 || ^3.0"
     },
     "require-dev": {
+        "ramsey/uuid": "^4.7",
         "roave/security-advisories": "dev-latest",
         "jetbrains/phpstorm-attributes": "dev-master@dev",
         "phpunit/phpunit": "^10.2",
@@ -27,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Spiral\\Marshaller\\Tests\\": "tests/src"
+            "Spiral\\Marshaller\\Tests\\": "tests"
         }
     },
     "scripts": {

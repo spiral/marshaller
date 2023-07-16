@@ -8,7 +8,7 @@ use Spiral\Marshaller\MarshallerInterface;
 use Spiral\Marshaller\MarshallingRule;
 
 /**
- * @template TClass
+ * @template TClass of object
  */
 class ObjectType extends Type implements DetectableTypeInterface, RuleFactoryInterface
 {
@@ -30,7 +30,7 @@ class ObjectType extends Type implements DetectableTypeInterface, RuleFactoryInt
 
     public static function match(\ReflectionNamedType $type): bool
     {
-        return !$type->isBuiltin();
+        return !$type->isBuiltin() || $type->getName() === 'object';
     }
 
     public static function makeRule(\ReflectionProperty $property): ?MarshallingRule
@@ -57,6 +57,14 @@ class ObjectType extends Type implements DetectableTypeInterface, RuleFactoryInt
             $current = $this->emptyInstance();
         }
 
+        if ($current::class === \stdClass::class && $this->reflection->getName() === \stdClass::class) {
+            foreach ($value as $key => $val) {
+                $current->$key = $val;
+            }
+
+            return $current;
+        }
+
         return $this->marshaller->unmarshal($value, $current);
     }
 
@@ -65,7 +73,9 @@ class ObjectType extends Type implements DetectableTypeInterface, RuleFactoryInt
      */
     public function serialize(mixed $value): array
     {
-        return $this->marshaller->marshal($value);
+        return $this->reflection->getName() === \stdClass::class
+            ? (array)$value
+            : $this->marshaller->marshal($value);
     }
 
     /**

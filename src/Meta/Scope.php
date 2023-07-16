@@ -39,11 +39,17 @@ class Scope
                                 | self::VISIBILITY_PROTECTED
                                 | self::VISIBILITY_PUBLIC;
 
+    /**
+     * @var ExportScope
+     */
     #[ExpectedValues(valuesFromClass: Scope::class)]
     public int $properties;
 
     public bool $copyOnWrite;
 
+    /**
+     * @param ExportScope $properties
+     */
     public function __construct(
         int $properties = self::VISIBILITY_PUBLIC,
         bool $copyOnWrite = false

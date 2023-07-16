@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Spiral\Marshaller\Type;
 
-use BackedEnum;
 use Spiral\Marshaller\MarshallerInterface;
 use Spiral\Marshaller\MarshallingRule;
 
@@ -14,7 +13,7 @@ class EnumType extends Type implements RuleFactoryInterface
         . 'array with `name` or `value` keys; a case of the Enum. %s given.';
 
     /**
-     * @var class-string<\UnitEnum>
+     * @var class-string<\BackedEnum>
      */
     private string $classFQCN;
 
@@ -76,7 +75,7 @@ class EnumType extends Type implements RuleFactoryInterface
      */
     public function serialize(mixed $value): array
     {
-        return $value instanceof BackedEnum
+        return $value instanceof \BackedEnum
             ? [
                 'name' => $value->name,
                 'value' => $value->value,

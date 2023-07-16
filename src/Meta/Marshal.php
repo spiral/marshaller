@@ -18,7 +18,6 @@ class Marshal extends MarshallingRule
 {
     /**
      * @param class-string|null $type
-     * @param null|Marshal|string $of
      */
     public function __construct(
         ?string $name = null,
