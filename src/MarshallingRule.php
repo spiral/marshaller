@@ -6,9 +6,6 @@ namespace Spiral\Marshaller;
 
 use Spiral\Marshaller\Type\TypeInterface;
 
-/**
- * @internal
- */
 class MarshallingRule
 {
     /**
